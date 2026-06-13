@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>QuickKart</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickKart – Shop Smarter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">QuickKart</span>
+      <span class="logo-tag">10-min delivery</span>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search" placeholder="Search groceries, electronics, food…">
+    </div>
+    <div class="header-right">
+      <div class="location-pill">📍 Delhi</div>
+      <button class="profile-btn" id="profileToggle" title="My Profile">
+        <span id="profileAvatar">👤</span>
+        <span id="profileBtnName">Sign In</span>
+      </button>
+      <button class="cart-fab" id="cartToggle">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ========== PROFILE DRAWER ========== -->
+<div class="profile-overlay" id="profileOverlay" onclick="closeProfile()"></div>
+<div class="profile-drawer" id="profileDrawer">
+  <div class="profile-drawer-header">
+    <div class="profile-big-avatar" id="profileBigAvatar">👤</div>
+    <div style="flex:1">
+      <div class="profile-drawer-name" id="profileDrawerName">Your Profile</div>
+      <div class="profile-drawer-sub">Manage your personal details</div>
+    </div>
+    <button class="drawer-close" onclick="closeProfile()">✕</button>
+  </div>
+  <div class="profile-form">
+    <div class="input-group">
+      <label>Full Name</label>
+      <input type="text" id="pName" placeholder="Tanisha Ray" oninput="updateProfilePreview()">
+    </div>
+    <div class="input-group">
+      <label>Phone Number</label>
+      <div class="phone-wrap">
+        <span class="phone-flag">🇮🇳 +91</span>
+        <input type="tel" id="pPhone" placeholder="98765 43210" maxlength="10" oninput="updateProfilePreview()">
+      </div>
+    </div>
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="pEmail" placeholder="tanisha@email.com">
+    </div>
+    <div class="input-group">
+      <label>Delivery Address</label>
+      <textarea id="pAddress" placeholder="Flat 4B, Green Park, New Delhi – 110016" rows="2" style="width:100%;padding:10px;border:2px solid #e0e0e0;border-radius:10px;font-family:inherit;font-size:14px;resize:none;"></textarea>
+    </div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>City</label>
+        <input type="text" id="pCity" placeholder="Delhi">
+      </div>
+      <div class="input-group">
+        <label>PIN Code</label>
+        <input type="text" id="pPin" placeholder="110001" maxlength="6">
+      </div>
+    </div>
+    <button class="save-profile-btn" onclick="saveProfile()">💾 Save Details</button>
+    <div class="profile-saved-msg" id="profileSavedMsg"></div>
+  </div>
+</div>
+
+<!-- ========== SELLER CONTACT MODAL ========== -->
+<div class="modal-overlay" id="sellerModal">
+  <div class="modal-box seller-modal-box">
+    <div class="modal-header">
+      <div>
+        <h2 id="sellerModalTitle">Contact Seller</h2>
+        <p class="modal-subtitle" id="sellerModalProduct"></p>
+      </div>
+      <button class="modal-close" onclick="closeSellerModal()">✕</button>
+    </div>
+    <div class="seller-profile-row" id="sellerProfileRow"></div>
+    <div class="contact-methods">
+      <a class="contact-method-btn call-btn" id="sellerCallBtn" href="#">
+        <span class="cm-icon">📞</span>
+        <div>
+          <div class="cm-label">Call Seller</div>
+          <div class="cm-sub" id="sellerCallNum">+91 XXXXX XXXXX</div>
+        </div>
+      </a>
+      <a class="contact-method-btn whatsapp-btn" id="sellerWABtn" href="#" target="_blank">
+        <span class="cm-icon">💬</span>
+        <div>
+          <div class="cm-label">WhatsApp</div>
+          <div class="cm-sub">Send a message</div>
+        </div>
+      </a>
+      <a class="contact-method-btn sms-btn" id="sellerSMSBtn" href="#">
+        <span class="cm-icon">✉️</span>
+        <div>
+          <div class="cm-label">Send SMS</div>
+          <div class="cm-sub">Text the seller</div>
+        </div>
+      </a>
+    </div>
+    <div class="custom-msg-wrap">
+      <div class="input-group">
+        <label>Custom Message (optional)</label>
+        <textarea id="customMsg" rows="3" placeholder="Hi, I'd like to ask about this product…" style="width:100%;padding:10px;border:2px solid #e0e0e0;border-radius:10px;font-family:inherit;font-size:14px;resize:none;margin-top:6px"></textarea>
+      </div>
+      <button class="pay-btn" style="margin-top:8px" onclick="sendCustomMsg()">Send Message →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== HERO BANNER ========== -->
+<section class="hero">
+  <div class="hero-slide active" style="--bg:#fef3c7">
+    <div class="hero-text">
+      <div class="hero-badge">⚡ 10-minute delivery</div>
+      <h2>Groceries at<br><span>Lightning Speed</span></h2>
+      <p>Fresh from local stores to your door</p>
+      <button onclick="filterProducts('food')">Shop Food →</button>
+    </div>
+    <div class="hero-img">🍔🍕🥗</div>
+  </div>
+</section>
+
+<!-- ========== CATEGORIES ========== -->
+<div class="cat-strip">
+  <button class="cat-btn active" data-cat="all" onclick="filterProducts('all',this)">
+    <span>🛍️</span> All
+  </button>
+  <button class="cat-btn" data-cat="tech" onclick="filterProducts('tech',this)">
+    <span>💻</span> Tech
+  </button>
+  <button class="cat-btn" data-cat="food" onclick="filterProducts('food',this)">
+    <span>🍔</span> Food
+  </button>
+  <button class="cat-btn" data-cat="makeup" onclick="filterProducts('makeup',this)">
+    <span>💄</span> Beauty
+  </button>
+  <button class="cat-btn" data-cat="daily" onclick="filterProducts('daily',this)">
+    <span>🧼</span> Daily
+  </button>
+</div>
+
+<!-- ========== MAIN ========== -->
+<div class="main-layout">
+
+  <!-- PRODUCTS GRID -->
+  <div class="products-section">
+    <div class="section-header">
+      <h3 id="sectionTitle">All Products</h3>
+      <span id="productCount" class="product-count"></span>
+    </div>
+    <div id="products" class="products-grid"></div>
+  </div>
+
+  <!-- CART SIDEBAR -->
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>🛒 Your Cart</h2>
+      <button class="close-cart" id="closeCart">✕</button>
+    </div>
+    <div class="cart-body">
+      <div id="cartItems" class="cart-items-list"></div>
+      <div class="cart-empty" id="cartEmpty">
+        <div class="empty-emoji">🛒</div>
+        <p>Your cart is empty</p>
+        <small>Add items to get started!</small>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="savings-row" id="savingsRow" style="display:none">
+        <span>🎉 You save</span>
+        <span id="savingsAmt" class="savings-amt">₹0</span>
+      </div>
+      <div class="total-row">
+        <span>Total</span>
+        <span class="total-price">₹<span id="total">0</span></span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn">
+        Proceed to Checkout →
+      </button>
+    </div>
+  </aside>
+</div>
+
+<!-- FLOATING CART BUTTON (mobile) -->
+<div class="floating-cart" id="floatingCart" style="display:none" onclick="document.getElementById('cartSidebar').classList.add('open')">
+  🛒 <strong id="floatingTotal">₹0</strong> · <span id="floatingCount">0 items</span>
+</div>
+
+<!-- ========== PAYMENT MODAL ========== -->
+<div id="paymentModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <h2>Secure Checkout</h2>
+        <p class="modal-subtitle">100% safe & encrypted 🔒</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary" id="orderSummary"></div>
+
+    <!-- Payment Methods -->
+    <div class="pay-methods">
+      <button class="pay-method active" data-method="card" onclick="switchMethod('card',this)">💳 Card</button>
+      <button class="pay-method" data-method="upi" onclick="switchMethod('upi',this)">📱 UPI</button>
+      <button class="pay-method" data-method="cod" onclick="switchMethod('cod',this)">💵 COD</button>
+    </div>
+
+    <!-- Card Form -->
+    <div id="methodCard" class="method-form">
+      <div class="input-group">
+        <label>Name on Card</label>
+        <input type="text" id="cardName" placeholder="Tanisha Ray">
+      </div>
+      <div class="input-group">
+        <label>Card Number</label>
+        <div class="card-number-wrap">
+          <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+          <span class="card-network" id="cardNetwork">💳</span>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Expiry</label>
+          <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
+        </div>
+        <div class="input-group">
+          <label>CVV</label>
+          <input type="password" id="cvv" placeholder="•••" maxlength="3">
+        </div>
+      </div>
+      <label class="save-card-label">
+        <input type="checkbox" id="saveCard"> Save card for later
+      </label>
+    </div>
+
+    <!-- UPI Form -->
+    <div id="methodUpi" class="method-form" style="display:none">
+      <div class="upi-apps">
+        <button class="upi-app" onclick="selectUpi(this)">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/512px-Google_Pay_Logo.svg.png" alt="GPay">
+          <span>GPay</span>
+        </button>
+        <button class="upi-app" onclick="selectUpi(this)">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm">
+          <span>Paytm</span>
+        </button>
+        <button class="upi-app" onclick="selectUpi(this)">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/PhonePe_Logo.svg/512px-PhonePe_Logo.svg.png" alt="PhonePe">
+          <span>PhonePe</span>
+        </button>
+      </div>
+      <div class="input-group" style="margin-top:12px">
+        <label>Or enter UPI ID</label>
+        <input type="text" id="upiId" placeholder="yourname@upi">
+      </div>
+    </div>
+
+    <!-- COD -->
+    <div id="methodCod" class="method-form" style="display:none">
+      <div class="cod-info">
+        <div class="cod-icon">💵</div>
+        <p>Pay in cash when your order arrives at your doorstep.</p>
+        <p class="cod-note">⚠️ Please keep exact change ready.</p>
+      </div>
+    </div>
+
+    <button class="pay-btn" id="payBtn" onclick="processPayment()">
+      <span id="payBtnText">Pay ₹<span id="payAmount">0</span></span>
+    </button>
+  </div>
+</div>
+
+<!-- ========== SUCCESS OVERLAY ========== -->
+<div id="successOverlay" class="success-overlay">
+  <div class="success-box">
+    <div class="success-anim">✅</div>
+    <h2>Order Placed!</h2>
+    <p>Your order is confirmed and on its way 🎉</p>
+    <div class="order-id">Order #QK<span id="orderId"></span></div>
+    <button onclick="openTracking(); closeSuccess();">Track My Order →</button>
+    <button class="secondary-btn" onclick="closeSuccess()">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- ========== ORDER TRACKING PAGE ========== -->
+<div id="trackingPage" class="tracking-page" style="display:none">
+  <div class="tracking-header">
+    <button class="back-btn" onclick="closeTracking()">← Back to Shop</button>
+    <h2>Order Tracking</h2>
+    <div class="track-order-id">Order #QK<span id="trackOrderId"></span></div>
+  </div>
+
+  <div class="tracking-content">
+
+    <!-- Left: Map visual + ETA -->
+    <div class="tracking-left">
+      <div class="delivery-eta-card">
+        <div class="eta-top">
+          <div>
+            <div class="eta-label">Estimated Delivery</div>
+            <div class="eta-date" id="etaDate">—</div>
+          </div>
+          <div class="eta-icon" id="etaIcon">📦</div>
+        </div>
+        <div class="eta-time-left" id="etaTimeLeft">Calculating…</div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-labels">
+          <span>Order Placed</span>
+          <span id="progressPct">0%</span>
+          <span>Delivered</span>
+        </div>
+      </div>
+
+      <!-- Fake map -->
+      <div class="fake-map">
+        <div class="map-route">
+          <div class="map-dot origin">🏪</div>
+          <div class="map-line">
+            <div class="map-truck" id="mapTruck">🚚</div>
+          </div>
+          <div class="map-dot dest">🏠</div>
+        </div>
+        <div class="map-labels">
+          <span>Warehouse</span>
+          <span>Your Home</span>
+        </div>
+        <div class="map-address" id="mapAddress">📍 Delivering to Delhi, India</div>
+      </div>
+
+      <!-- Ordered Items Summary -->
+      <div class="track-items-card">
+        <h4>Items in this order</h4>
+        <div id="trackItemsList"></div>
+      </div>
+    </div>
+
+    <!-- Right: Timeline -->
+    <div class="tracking-right">
+      <h3 class="timeline-title">Delivery Timeline</h3>
+      <div class="timeline" id="timeline"></div>
+
+      <!-- Agent card -->
+      <div class="agent-card" id="agentCard">
+        <img class="agent-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="Agent">
+        <div class="agent-info">
+          <div class="agent-name" id="agentName">Rahul K.</div>
+          <div class="agent-role">Delivery Partner</div>
+          <div class="agent-rating">⭐ 4.9 · 2.3k deliveries</div>
+        </div>
+        <div class="agent-actions">
+          <button class="agent-btn" onclick="callAgent()">📞</button>
+          <button class="agent-btn" onclick="chatAgent()">💬</button>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="quick-actions">
+        <button class="qa-btn" onclick="alert('Support ticket raised! We\'ll contact you shortly.')">🆘 Need Help?</button>
+        <button class="qa-btn" onclick="alert('Cancellation window has passed. Contact support.')">❌ Cancel Order</button>
+        <button class="qa-btn" onclick="alert('Invoice sent to your email!')">🧾 Get Invoice</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
